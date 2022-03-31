@@ -42,10 +42,9 @@ res.json(response);
 
 	// res.send("hello World");
 });
-route.get('/getBitcoinInfo/currentprice',async(req,res)=>{
+route.get('/getBitcoinInfo/currentprice/:currency_type',async(req,res)=>{
 
-
-	const url='https://api.coindesk.com/v1/bpi/currentprice/eur.json/:currency_type:'
+	const url='https://api.coindesk.com/v1/bpi/currentprice/eur.json/'
 
 	const options ={
 		'method': 'GET'
@@ -58,8 +57,22 @@ route.get('/getBitcoinInfo/currentprice',async(req,res)=>{
 		error: e,
 	});
 });
-console.log("RESPONSE:", response.bpi.USD);
-res.json(response.bpi.USD);
+
+//const currency_array 
+const data = Object.values(response['bpi']);
+// res.json(data);
+// console.log(typeof(data))
+
+
+ const  bicoin_price = data.find(r => r.bpi===String(req.params.currency_type));
+
+// if (!bicoin_price) res.status(404).send('Not Found')
+// 	console.log("RESPONSE:", bicoin_price);
+// 	res.json(bicoin_price);
+
+
+// console.log("RESPONSE:", response.bpi.USD);
+// res.json(response.bpi.USD);
 
 
 
