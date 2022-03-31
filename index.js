@@ -59,16 +59,20 @@ route.get('/getBitcoinInfo/currentprice/:currency_type',async(req,res)=>{
 });
 
 //const currency_array 
-const data = Object.values(response['bpi']);
-// res.json(data);
-// console.log(typeof(data))
+const data = Object.values(response.bpi['USD']);
+
+//const some =data.keys(String(req.params.currency_type))
+//object theke aaray bair korte hobe
 
 
- const  bicoin_price = data.find(r => r.bpi===String(req.params.currency_type));
+res.json(data);
+// console.log(typeof(some))
 
-if (!bicoin_price) res.status(404).send('Not Found')
-	console.log("RESPONSE:", bicoin_price);
-	res.json(bicoin_price);
+//  const  bicoin_price = data.find(r => r.bpi===String(req.params.currency_type));
+
+// if (!bicoin_price) res.status(404).send('Not Found')
+// 	console.log("RESPONSE:", bicoin_price);
+// 	res.json(bicoin_price);
 
 
 // console.log("RESPONSE:", response.bpi.USD);
@@ -78,8 +82,7 @@ if (!bicoin_price) res.status(404).send('Not Found')
 
 
 
-	// res.send("hello World");
+	 res.send("hello World");
 });
 const port = process.env.PORT || 3000;
 route.listen(port, ()=> console.log(`Listening on port ${port}`))
-
