@@ -66,9 +66,9 @@ const data = Object.values(response['bpi']);
 
  const  bicoin_price = data.find(r => r.bpi===String(req.params.currency_type));
 
-// if (!bicoin_price) res.status(404).send('Not Found')
-// 	console.log("RESPONSE:", bicoin_price);
-// 	res.json(bicoin_price);
+if (!bicoin_price) res.status(404).send('Not Found')
+	console.log("RESPONSE:", bicoin_price);
+	res.json(bicoin_price);
 
 
 // console.log("RESPONSE:", response.bpi.USD);
