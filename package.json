@@ -1,0 +1,21 @@
+{
+  "name": "bitcoinPrice_nodejs_restApi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "nodeapp": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mongodb": "^4.4.1",
+    "node-fetch": "^3.2.3",
+    "node-fetch-npm": "^2.0.4",
+    "nodeman": "^1.1.2"
+  }
+}
