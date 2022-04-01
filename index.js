@@ -77,10 +77,25 @@ route.get('/getBitcoinInfo/:currency', async (req, res) => {
 		});
 
 
-	//model , Collection,schema
-	bitCoinInfo.create(response).then(function (bitCoinPriceCollctions) {
-		res.send(bitCoinPriceCollctions);
-	});
+	const obj=response['bpi']
+
+	const keys = Object.keys(obj);
+	console.log(keys); // ['2022-03-02', '2022-03-03', '2022-03-04', '2022-03-04',etc]
+
+	const values = keys.map(key => {
+	return obj[key];});
+	
+	console.log(values); // [39508.4807, 38383.8573, 35817.5657, 36066.8273,etc]
+
+	const max = Math.max.apply(null, values);
+	console.log(max); // 43832.602
+
+	const min = Math.min.apply(null, values);
+	console.log(min); // 34579.2098
+
+
+
+
 
 
 	// console.log("RESPONSE:", response);
