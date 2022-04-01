@@ -9,10 +9,34 @@
 
 import fetch from "node-fetch";
 import express from 'express'
+import mongoose from 'mongoose'
 //const express = require('express');
+//const bitCoinInfo = require('./models/mongoDB_model');
 const route = express();
 //const fetch = require('node-fetch');
 route.use(express.json())
+
+
+mongoose.connect('mongodb://localhost/BitCoin');
+mongoose.Promise =global.Promise;
+
+const mongoDB_schema = mongoose.Schema;
+
+// db_model_schema = new mongoDB_schema({});
+// 	db_model_schema.add(response);
+
+const db_model_schema = new mongoDB_schema({
+	bpi: { type: Object, default: '' },
+	disclamer: { type: String, default: '' },
+	time: { type: Object, default: '' }
+});
+
+//model , Collection,schema
+let bitCoinInfo = mongoose.model('bitCoinPriceCollctions', db_model_schema);
+
+//var bitCoinInfo =mongoose.model('bitCoinPriceCollctions',db_model_schema);
+
+
 
 global.currency_code ='';
 
@@ -39,8 +63,17 @@ route.get('/getBitcoinInfo/:currency', async (req, res) => {
 				error: e,
 			});
 		});
-	console.log("RESPONSE:", response);
-	res.json(response);
+
+	
+	//model , Collection,schema
+	
+
+	bitCoinInfo.create(response).then(function(bitCoinPriceCollctions){
+		res.send(bitCoinPriceCollctions);
+	});
+
+	// console.log("RESPONSE:", response);
+	// res.json(response);
 
 
 
