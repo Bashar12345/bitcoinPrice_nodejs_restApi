@@ -74,7 +74,7 @@ route.get('/getBitcoinInfo/:currency', async (req, res) => {
 		.then(res => res.json())
 		.catch(e => {
 			console.error({
-				'massages': 'Data fetch hoy naaaaai!!!',
+				'massages': 'Data not found...data fetch hoy naaaaai!!!',
 				error: e,
 			});
 		});
@@ -113,12 +113,17 @@ route.get('/getBitcoinInfo/:currency', async (req, res) => {
 	};
 
 	res.json(route_responsed)
+
+	
 });
 
-const port = process.env.PORT || 3000;
-    route.listen(port, () => console.log(`Listening on port ${port}`))
+// const port = process.env.PORT || 3000;
+//     route.listen(port () => console.log(`Listening on port ${port}`))
 
-
+	const host = '0.0.0.0';
+	const port = 8080;
+	route.listen(port,host);
+	console.log(`Listening on http://${host}:${port}`);
 
 
 
