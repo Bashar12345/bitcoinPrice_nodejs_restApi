@@ -3,13 +3,10 @@
 // cy=eur
 // https://api.coindesk.com/v1/bpi/currentprice/eur.json
 
-// fetch('http://example.com/movies.json')
-//   .then(response => response.json())
-//   .then(data => console.log(data));
 
 import fetch from "node-fetch";
 import express from 'express'
-import mongoose from 'mongoose'
+//import mongoose from 'mongoose'
 //const express = require('express');
 //const bitCoinInfo = require('./models/mongoDB_model');
 const route = express();
@@ -17,40 +14,12 @@ const route = express();
 route.use(express.json())
 
 
-mongoose.connect('mongodb://localhost/BitCoin');
-mongoose.Promise =global.Promise;
-
-const mongoDB_schema = mongoose.Schema;
-
-// db_model_schema = new mongoDB_schema({});
-// 	db_model_schema.add(response);
-
-const db_model_schema = new mongoDB_schema({
-	bpi: { type: Object, default: '' },
-	disclaimer: { type: String, default: '' },
-	time: { type: Object, default: '' }
-});
-
-//model , Collection,schema
-let bitCoinInfo = mongoose.model('bitCoinPriceCollctions', db_model_schema);
-
-//var bitCoinInfo =mongoose.model('bitCoinPriceCollctions',db_model_schema);
-
-
-
 global.currency_code ='';
 
 
 
-
-
-
-
 //lowest and higest rate and current rate
-
-
 //this route have one request id  'currency' 
-
 route.get('/getBitcoinInfo/:currency', async (req, res) => {
 
 	currency_code = req.params.currency
@@ -101,9 +70,6 @@ route.get('/getBitcoinInfo/:currency', async (req, res) => {
 
 	const current_price_url = 'https://api.coindesk.com/v1/bpi/currentprice/'+currency_code +'.json/'
 
-	// const options = {
-	// 	'method': 'GET'
-	// }
 	const current_price_response = await fetch(current_price_url, options).then(url, options)
 		.then(res => res.json())
 		.catch(e => {
@@ -239,3 +205,34 @@ const port = process.env.PORT || 3000;
 
 
 	 //res.send("hello World");
+
+
+
+
+
+
+
+
+// mongoose.connect('mongodb://localhost/BitCoin');
+// mongoose.Promise =global.Promise;
+
+// const mongoDB_schema = mongoose.Schema;
+
+// // db_model_schema = new mongoDB_schema({});
+// // 	db_model_schema.add(response);
+
+// const db_model_schema = new mongoDB_schema({
+// 	bpi: { type: Object, default: '' },
+// 	disclaimer: { type: String, default: '' },
+// 	time: { type: Object, default: '' }
+// });
+
+// //model , Collection,schema
+// let bitCoinInfo = mongoose.model('bitCoinPriceCollctions', db_model_schema);
+
+// //var bitCoinInfo =mongoose.model('bitCoinPriceCollctions',db_model_schema);
+
+
+// fetch('http://example.com/movies.json')
+//   .then(response => response.json())
+//   .then(data => console.log(data));
