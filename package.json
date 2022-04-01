@@ -1,11 +1,11 @@
 {
-  "name": "bitcoinPrice_nodejs_restApi",
+  "name": "bitcoin_info_restapi",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "nodeapp": "nodemon app.js",
+    "nodeapp": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,8 +15,10 @@
     "express": "^4.17.3",
     "mongodb": "^4.4.1",
     "mongoose": "^6.2.9",
+    "node": "^17.7.2",
     "node-fetch": "^3.2.3",
     "node-fetch-npm": "^2.0.4",
-    "nodeman": "^1.1.2"
+    "nodeman": "^1.1.2",
+    "nodemon": "^2.0.15"
   }
 }
