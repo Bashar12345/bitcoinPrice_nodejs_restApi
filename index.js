@@ -46,7 +46,11 @@ global.currency_code ='';
 
 
 
-//lowest and higest rate 
+//lowest and higest rate and current rate
+
+
+//this route have one request id  'currency' 
+
 route.get('/getBitcoinInfo/:currency', async (req, res) => {
 
 	currency_code = req.params.currency
@@ -59,8 +63,8 @@ route.get('/getBitcoinInfo/:currency', async (req, res) => {
 	var previous_date_start = date.toISOString().split('T')[0];
 
 
-	console.log(current_date_end)
-	console.log(previous_date_start)
+	// console.log(current_date_end)
+	// console.log(previous_date_start)
 
 	const url = 'https://api.coindesk.com/v1/bpi/historical/close.json?start='+previous_date_start+'&end='+current_date_end+'&currency='+ currency_code
 
@@ -80,22 +84,78 @@ route.get('/getBitcoinInfo/:currency', async (req, res) => {
 	const obj=response['bpi']
 
 	const keys = Object.keys(obj);
-	console.log(keys); // ['2022-03-02', '2022-03-03', '2022-03-04', '2022-03-04',etc]
+	//console.log(keys); // ['2022-03-02', '2022-03-03', '2022-03-04', '2022-03-04',etc]
 
 	const values = keys.map(key => {
 	return obj[key];});
+
+	//console.log(values); // [39508.4807, 38383.8573, 35817.5657, 36066.8273,etc]
+
+	const highest_Bitcoin_rate = Math.max.apply(null, values);
+	//console.log(highest_Bitcoin_rate); // 43832.602
+
+	const lowest_Bitcoin_rate = Math.min.apply(null, values);
+	//console.log(lowest_Bitcoin_rate); // 34579.2098
+
+
+
+	const current_price_url = 'https://api.coindesk.com/v1/bpi/currentprice/'+currency_code +'.json/'
+
+	// const options = {
+	// 	'method': 'GET'
+	// }
+	const current_price_response = await fetch(current_price_url, options).then(url, options)
+		.then(res => res.json())
+		.catch(e => {
+			console.error({
+				'massages': 'Data fetch hoy naaaaai!!!',
+				error: e,
+			});
+		});
+
 	
-	console.log(values); // [39508.4807, 38383.8573, 35817.5657, 36066.8273,etc]
+	
+	//Validation 
+	currency_code = currency_code.toUpperCase()
+	let current_bitcoin_price = '';
 
-	const max = Math.max.apply(null, values);
-	console.log(max); // 43832.602
-
-	const min = Math.min.apply(null, values);
-	console.log(min); // 34579.2098
-
+	if (!currency_code || currency_code.length > 3) {
+		res.status(400).send('Currency code required and should be minimum 3 characters')
+		return;
+	}
 
 
+	const data_set = Object.values(current_price_response['bpi']);
+	//console.log(data_set);	
+	const disclaimer_String = response['disclaimer'] 
 
+	for (let key in data_set) {
+		//console.log(data_set[key])
+		if (data_set[key].code === currency_code) {
+			current_bitcoin_price=(data_set[key]);
+		}
+	}
+
+	//console.log(current_bitcoin_price);
+
+	
+
+	const route_responsed = {
+		current_rate: current_bitcoin_price,
+		lowest_rate: lowest_Bitcoin_rate,
+		highest_rate: highest_Bitcoin_rate,
+		disclaimer: disclaimer_String
+	};
+
+
+
+	res.json(route_responsed)
+
+
+
+//res.send()
+
+//  i have to make  a endpoint for application
 
 
 	// console.log("RESPONSE:", response);
@@ -106,60 +166,61 @@ route.get('/getBitcoinInfo/:currency', async (req, res) => {
 	// res.send("hello World");
 });
 
-
-
-
-//Current_price route
-route.get('/getBitcoinInfo/currentPrice/:currency_type', async (req, res) => {
-
-	const url = 'https://api.coindesk.com/v1/bpi/currentprice/eur.json/'
-
-	const options = {
-		'method': 'GET'
-	}
-	const response = await fetch(url, options).then(url, options)
-		.then(res => res.json())
-		.catch(e => {
-			console.error({
-				'massages': 'Data fetch hoy naaaaai!!!',
-				error: e,
-			});
-		});
-
-	//const currency_code
-	//let c_code = req.params.currency_type
-	currency_code = currency_code.toUpperCase()
-	//result
-	let results = [];
-
-	if (!currency_code || currency_code.length > 3) {
-		res.status(400).send('Currency code required and should be minimum 3 characters')
-		return;
-	}
-
-	const data_set = Object.values(response['bpi']);
-
-
-	for (let key in data_set) {
-		//console.log(data_set[key])
-		if (data_set[key].code === currency_code) {
-			results.push(data_set[key]);
-		}
-	}
-
-
-
-
-	console.log(results);
-	//const some =data.keys(String(req.params.currency_type))
-	//object theke aaray bair korte hobe
-
-	//console.log(data_set);
-	res.json(results)
-
-});
 const port = process.env.PORT || 3000;
-route.listen(port, () => console.log(`Listening on port ${port}`))
+    route.listen(port, () => console.log(`Listening on port ${port}`))
+
+
+// //Current_price route
+// route.get('/getBitcoinInfo/currentPrice/:currency_type', async (req, res) => {
+
+// 	const url = 'https://api.coindesk.com/v1/bpi/currentprice/eur.json/'
+
+// 	const options = {
+// 		'method': 'GET'
+// 	}
+// 	const response = await fetch(url, options).then(url, options)
+// 		.then(res => res.json())
+// 		.catch(e => {
+// 			console.error({
+// 				'massages': 'Data fetch hoy naaaaai!!!',
+// 				error: e,
+// 			});
+// 		});
+
+// 	//const currency_code
+// 	//let c_code = req.params.currency_type
+// 	currency_code = currency_code.toUpperCase()
+// 	//result
+// 	let results = '';
+
+// 	if (!currency_code || currency_code.length > 3) {
+// 		res.status(400).send('Currency code required and should be minimum 3 characters')
+// 		return;
+// 	}
+
+// 	const data_set = Object.values(response['bpi']);
+
+
+// 	for (let key in data_set) {
+// 		//console.log(data_set[key])
+// 		if (data_set[key].code === currency_code) {
+// 			results=(data_set[key]);
+// 		}
+// 	}
+
+
+
+
+// 	console.log(results);
+// 	//const some =data.keys(String(req.params.currency_type))
+// 	//object theke aaray bair korte hobe
+
+// 	//console.log(data_set);
+// 	res.json(results)
+
+// });
+// const port = process.env.PORT || 3000;
+// route.listen(port, () => console.log(`Listening on port ${port}`))
 
 
 
