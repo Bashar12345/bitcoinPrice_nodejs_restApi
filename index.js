@@ -138,7 +138,6 @@ route.get('/getBitcoinInfo/:currency', async (req, res) => {
 
 	//console.log(current_bitcoin_price);
 
-	
 
 	const route_responsed = {
 		current_rate: current_bitcoin_price,
@@ -147,29 +146,20 @@ route.get('/getBitcoinInfo/:currency', async (req, res) => {
 		disclaimer: disclaimer_String
 	};
 
-
-
 	res.json(route_responsed)
-
-
-
-//res.send()
-
-//  i have to make  a endpoint for application
-
-
-	// console.log("RESPONSE:", response);
-	//res.json(response);
-
-
-
-	// res.send("hello World");
 });
 
 const port = process.env.PORT || 3000;
     route.listen(port, () => console.log(`Listening on port ${port}`))
 
 
+
+
+
+
+
+
+	
 // //Current_price route
 // route.get('/getBitcoinInfo/currentPrice/:currency_type', async (req, res) => {
 
