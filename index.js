@@ -27,7 +27,7 @@ const mongoDB_schema = mongoose.Schema;
 
 const db_model_schema = new mongoDB_schema({
 	bpi: { type: Object, default: '' },
-	disclamer: { type: String, default: '' },
+	disclaimer: { type: String, default: '' },
 	time: { type: Object, default: '' }
 });
 
@@ -49,8 +49,20 @@ global.currency_code ='';
 //lowest and higest rate 
 route.get('/getBitcoinInfo/:currency', async (req, res) => {
 
- 	currency_code = req.params.currency
-	const url = 'https://api.coindesk.com/v1/bpi/historical/close.json?start=2013-09-01&end=2013-09-05&currency='+currency_code
+	currency_code = req.params.currency
+
+	const current_date_end = new Date().toISOString().substring(0, 10);
+	//console.log(typeof(current_date_start))
+
+	var date = new Date();
+	date.setDate(date.getDate() - 30);
+	var previous_date_start = date.toISOString().split('T')[0];
+
+
+	console.log(current_date_end)
+	console.log(previous_date_start)
+
+	const url = 'https://api.coindesk.com/v1/bpi/historical/close.json?start='+previous_date_start+'&end='+current_date_end+'&currency='+ currency_code
 
 	const options = {
 		'method': 'GET'
@@ -59,21 +71,20 @@ route.get('/getBitcoinInfo/:currency', async (req, res) => {
 		.then(res => res.json())
 		.catch(e => {
 			console.error({
-				'massages': 'vhul hoise',
+				'massages': 'Data not Found',
 				error: e,
 			});
 		});
 
-	
-	//model , Collection,schema
-	
 
-	bitCoinInfo.create(response).then(function(bitCoinPriceCollctions){
+	//model , Collection,schema
+	bitCoinInfo.create(response).then(function (bitCoinPriceCollctions) {
 		res.send(bitCoinPriceCollctions);
 	});
 
+
 	// console.log("RESPONSE:", response);
-	// res.json(response);
+	//res.json(response);
 
 
 
