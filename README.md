@@ -12,3 +12,9 @@ A rest api for Bitcoin Current price and monthly Rate
 
 ##Docker 
 https://hub.docker.com/r/muhammadbassar/bitcoin_info_restapi/tags
+
+###pull
+docker pull muhammadbassar/bitcoin_info_restapi:1.0 
+
+###run
+docker run -it muhammadbassar/bitcoin_info_restapi:1.0
