@@ -9,3 +9,6 @@ A rest api for Bitcoin Current price and monthly Rate
 
 #http
 0.0.0.0:8080/getBitcoinInfo/<currency_code>
+
+##Docker 
+https://hub.docker.com/r/muhammadbassar/bitcoin_info_restapi/tags
